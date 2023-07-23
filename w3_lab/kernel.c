@@ -7,6 +7,7 @@ void main() {
     uart_puts("Hello World!\n");
     // echo everything back
     while(1) {
+        // uart_puts("Hello World!\n");
         //read each char
         char c = uart_getc();
         //send back twice

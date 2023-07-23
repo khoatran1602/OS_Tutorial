@@ -6,6 +6,11 @@
     "stddef.h": "c",
     "stdint.h": "c",
     "framebf.h": "c",
-    "printf.h": "c"
+    "printf.h": "c",
+    "stdarg.h": "c",
+    "cli.h": "c",
+    "welcome.h": "c",
+    "string": "c",
+    "uart5.h": "c"
   }
 }
