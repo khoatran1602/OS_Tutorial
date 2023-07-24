@@ -11,6 +11,11 @@
     "cli.h": "c",
     "welcome.h": "c",
     "string": "c",
-    "uart5.h": "c"
+    "uart5.h": "c",
+    "gpio.h": "c",
+    "uart1.h": "c",
+    "uart0.h": "c",
+    "uart4.h": "c",
+    "uart3.h": "c"
   }
 }
