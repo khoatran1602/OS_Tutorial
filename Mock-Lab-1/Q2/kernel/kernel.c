@@ -1,18 +1,13 @@
-#ifdef UART3
-#include "./uart/uart3.h"
-#define MSG "Hello World! This is UART3 !!!\n"
+// -----------------------------------main.c -------------------------------------
 
-#else //UART4
-#include "./uart/uart4.h"
-#define MSG "Hello World! This is UART4 !!!\n"
-#endif
+#include "../uart/uart1.h"
+#define MSG "Hello World! This is UART1 !!!\n"
 
 void main(){
     // intitialize UART
     uart_init();
     
     // say hello
-    //! Why does it not print this?
     uart_puts(MSG);
 
     // echo everything back 

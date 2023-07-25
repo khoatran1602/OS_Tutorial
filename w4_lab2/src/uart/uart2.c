@@ -1,51 +1,51 @@
-#include "uart4.h"
+#include "uart2.h"
 
 /**
- * Set baud rate and characteristics (19200 8N1) and map to GPIO
+ * Set baud rate and characteristics (11 1200 8N1) and map to GPIO
  */
 void uart_init()
 {
     unsigned int r;
 
-	/* Turn off UART4 */
-	UART4_CR = 0x0;
+	/* Turn off UART2 */
+	UART2_CR = 0x0;
 
-	/* Setup GPIO pins 8 and 9 */
+	/* Setup GPIO pins 0 and 1 */
 
-	/* Set GPIO8 and GPIO9 to be pl011 TX/RX which is ALT4	*/
+	/* Set GPIO 0 and GPIO 1 to be pl011 TX/RX which is ALT0	*/
 	r = GPFSEL0;
-	r &= ~((0b111 << 24) | (0b111 << 27)); // Clear the gpio 8 and 9
-	r |=    (3 << 24)|(3 << 27);   //Set value 3 (select ALT4: UART4)
+	r &= ~((0b111 << 0) | (0b111 << 3)); // Clear the gpio 0 and  1
+	r |=  (3 << 0)|(3 << 3);   //Set value 3 (select ALT0: UART2)
 	GPFSEL0 = r;
-
+	
 	r = GPIO_PUP_PDN_CNTRL_REG0;
-	r &= ~((3 << 16) | (3 << 18)); //No resistor is selected for GPIO 8, 9
+	r &= ~((3 << 0) | (3 << 2)); //No resistor is selected for GPIO 0, 1
 	GPIO_PUP_PDN_CNTRL_REG0 = r;
 
 	/* Mask all interrupts. */
-	UART4_IMSC = 0;
+	UART2_IMSC = 0;
 
 	/* Clear pending interrupts. */
-	UART4_ICR = 0x7FF;
+	UART2_ICR = 0x7FF;
 
 	/* Set integer & fractional part of Baud rate
 	Divider = UART_CLOCK/(16 * Baud)            
 	Default UART_CLOCK = 48MHz (old firmware it was 3MHz); 
-	Integer part register UART4_IBRD  = integer part of Divider 
-	Fraction part register UART4_FBRD = (Fractional part * 64) + 0.5 */
+	Integer part register UART2_IBRD  = integer part of Divider 
+	Fraction part register UART2_FBRD = (Fractional part * 60) + 0. 1 */
 
 	//115200 baud
-	UART4_IBRD = 26;       
-	UART4_FBRD = 3;
+	UART2_IBRD = 26;       
+	UART2_FBRD = 3;
 
 	/* Set up the Line Control Register */
 	/* Enable FIFO */
 	/* Set length to 8 bit */
 	/* Defaults for other bit are No parity, 1 stop bit */
-	UART4_LCRH = UART4_LCRH_FEN | UART4_LCRH_WLEN_8BIT;
+	UART2_LCRH = UART2_LCRH_FEN | UART2_LCRH_WLEN_8BIT;
 
-	/* Enable UART4, receive, and transmit */
-	UART4_CR = 0x301;     // enable Tx, Rx, FIFO
+	/* Enable UART2, receive, and transmit */
+	UART2_CR = 0x301;     // enable Tx, Rx, FIFO
 }
 
 
@@ -59,10 +59,10 @@ void uart_sendc(char c) {
 	/* And wait until transmitter is not full */
 	do {
 		asm volatile("nop");
-	} while (UART4_FR & UART4_FR_TXFF);
+	} while (UART2_FR & UART2_FR_TXFF);
 
 	/* Write our data byte out to the data register */
-	UART4_DR = c ;
+	UART2_DR = c ;
 }
 
 /**
@@ -76,10 +76,10 @@ char uart_getc() {
      * (at least one byte data in receive fifo)*/
 	do {
 		asm volatile("nop");
-    } while ( UART4_FR & UART4_FR_RXFE );
+    } while ( UART2_FR & UART2_FR_RXFE );
 
     /* read it and return */
-    c = (unsigned char) (UART4_DR);
+    c = (unsigned char) (UART2_DR);
 
     /* convert carriage return to newline */
     return (c == '\r' ? '\n' : c);

@@ -8,7 +8,7 @@ all: clean kernel8.img run
 
 ifdef UART3
 UARTTYPE = 3
-else #UART1
+else #UART4
 UARTTYPE = 4
 endif
 
@@ -38,8 +38,8 @@ clean:
 	del *.img .\build\*.elf .\build\*.o
 
 run:
-ifdef UART0
+ifdef UART3
 	qemu-system-aarch64 -M raspi3 -kernel kernel8.img -serial stdio
-else #UART1
+else #UART4
 	qemu-system-aarch64 -M raspi3 -kernel kernel8.img -serial null -serial stdio
 endif

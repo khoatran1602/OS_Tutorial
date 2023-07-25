@@ -1,6 +1,6 @@
 #include "../gpio.h"
 
-#define UART4_BASE (MMIO_BASE + 0x201600)
+#define UART4_BASE (MMIO_BASE + 0x201800)
 
 #define UART4_DR (* (volatile unsigned int*)(UART4_BASE + 0x00))
 #define UART4_RSRECR (* (volatile unsigned int*)(UART4_BASE + 0x04))
