@@ -12,10 +12,10 @@ void uart_init()
 
 	/* Setup GPIO pins 0 and 1 */
 
-	/* Set GPIO 0 and GPIO 1 to be pl011 TX/RX which is ALT0	*/
+	/* Set GPIO 0 and GPIO 1 to be pl011 TX/RX which is ALT4	*/
 	r = GPFSEL0;
 	r &= ~((0b111 << 0) | (0b111 << 3)); // Clear the gpio 0 and  1
-	r |=  (3 << 0)|(3 << 3);   //Set value 3 (select ALT0: UART2)
+	r |=  (3 << 0)|(3 << 3);   //Set value 3 (select ALT4: UART2)
 	GPFSEL0 = r;
 	
 	r = GPIO_PUP_PDN_CNTRL_REG0;

@@ -12,10 +12,10 @@ void uart_init()
 
 	/* Setup GPIO pins 12 and 13 */
 
-	/* Set GPIO12 and GPIO13 to be pl011 TX/RX which is ALT0	*/
+	/* Set GPIO12 and GPIO13 to be pl011 TX/RX which is ALT4	*/
 	r = GPFSEL1;
 	r &= ~((0b111 << 6) | (0b111 << 9)); // Clear the gpio 12 and 13
-	r |=  (3 << 6)|(3 << 9);   //Set value 3 (select ALT0: UART5)
+	r |=  (3 << 6)|(3 << 9);   //Set value 3 (select ALT4: UART5)
 	GPFSEL1 = r;
 	
 	r = GPIO_PUP_PDN_CNTRL_REG0;
@@ -34,21 +34,25 @@ void uart_init()
 	Integer part register UART5_IBRD  = integer part of Divider 
 	Fraction part register UART5_FBRD = (Fractional part * 64) + 0.5 */
 
-	//!! 1115200 baud
-	UART5_IBRD = 26;       
-	UART5_FBRD = 3;
-
-	//!! 230400 baud
-	//UART5_IBRD = 13;
-	//UART5_FBRD = 2;
+	//!! 921600 baud
+	//UART5_IBRD = 3;
+	//UART5_FBRD = 17;
 
 	//!! 460800 baud
 	//UART5_IBRD = 7;
 	//UART5_FBRD = 33;
 
-	//!! 921600 baud
-	//UART5_IBRD = 3;
-	//UART5_FBRD = 17;
+	//!! 230400 baud
+	//UART5_IBRD = 13;
+	//UART5_FBRD = 2;
+
+	//!! 115200 baud
+	UART5_IBRD = 26;       
+	UART5_FBRD = 3;
+
+	//!! 57600 baud
+	//UART5_IBRD = 52;
+	//UART5_FBRD = 6;
 
 	//!! 38400 baud
 	//UART5_IBRD = 78;

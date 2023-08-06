@@ -12,7 +12,6 @@ void main(){
     uart_init();
     
     // say hello
-    //! Why does it not print this?
     uart_puts(MSG);
 
     // echo everything back 

@@ -48,7 +48,8 @@
 #define UART4_IMSC_PE	(1<<8)  
 #define UART4_IMSC_FE	(1<<7)	
 #define UART4_IMSC_RT	(1<<6)	
-#define UART4_IMSC_TX	(1<<5)  
+#define UART4_IMSC_TX	(1<<5)
+#define UART4_IMSC_RX	(1<<4)  
 #define UART4_IMSC_CTS	(1<<1)
 
 #define UART4_RIS (* (volatile unsigned int*)(UART4_BASE + 0x3C))
