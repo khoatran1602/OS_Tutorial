@@ -72,6 +72,41 @@ void show_info() {
     uart_puts("\n");
 }
 
+void mbox_buffer_setup(unsigned int buffer_addr, unsigned int tag_identifier, unsigned int num_values, unsigned int response, int *res_data, ...) {
+    // Point to the buffer address
+    volatile unsigned int *mbox = (volatile unsigned int *)buffer_addr;
+
+    // Initialize the buffer with zeros
+    for (int i = 0; i < 36; i++) {
+        mbox[i] = 0;
+    }
+
+    // Set the total buffer size
+    mbox[0] = 8 * 4;
+
+    // Set the request code
+    mbox[1] = MBOX_REQUEST;
+
+    // Set the TAG identifier
+    mbox[2] = tag_identifier;
+
+    mBuf[3] = num_values * 3; // Response length
+    mBuf[4] = 0; // REQUEST CODE = 0
+
+    // Variadic arguments (request values) passed to the function
+    va_list args;
+    va_start(args, num_values);
+    for (uint32_t i = 0; i <= num_values; i++) {
+        mBuf[5 + i] = va_arg(args, uint32_t);
+    }
+    va_end(args);
+
+    mBuf[7] = MBOX_TAG_LAST;
+
+    // Set the response data pointer
+    *res_data = (unsigned int)&mbox[response];
+}
+
 void main() {
     // set up serial console
     uart_init();
