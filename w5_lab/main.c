@@ -1,6 +1,7 @@
 // -----------------------------------main.c -------------------------------------
 #include "mbox.h"
 #include "uart.h"
+#include "./gcclib/stdarg.h"
 
 // Function to get board MAC revision
 unsigned int get_board_revision() {
@@ -31,7 +32,7 @@ void get_board_mac_address(uint8_t mac_address[6]) {
     mBuf[0] = 8 * 4;               // Message Buffer Size in bytes (8 elements * 4 bytes (32 bit) each)
     mBuf[1] = MBOX_REQUEST;        // Message Request Code (this is a request message)
     mBuf[2] = 0x00010003;          // TAG Identifier: Get board MAC address
-    mBuf[3] = 0;                   // Value buffer size in bytes (length is zero for MAC address)
+    mBuf[3] = 6;                   // Value buffer size in bytes (length is zero for MAC address)
     mBuf[4] = 0;                   // REQUEST CODE = 0
     mBuf[5] = 0;                   // clear output buffer (response data are mBuf[5] & mBuf[6])
     mBuf[6] = 0;                   // clear output buffer (response data are mBuf[5] & mBuf[6])
@@ -72,7 +73,7 @@ void show_info() {
     uart_puts("\n");
 }
 
-void mbox_buffer_setup(unsigned int buffer_addr, unsigned int tag_identifier, unsigned int num_values, unsigned int response, int *res_data, ...) {
+void mbox_buffer_setup(unsigned int buffer_addr, unsigned int tag_identifier, unsigned int num_values, unsigned int response, unsigned int *res_data, ...) {
     // Point to the buffer address
     volatile unsigned int *mbox = (volatile unsigned int *)buffer_addr;
 
